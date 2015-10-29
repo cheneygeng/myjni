@@ -1,0 +1,49 @@
+apply plugin: 'com.android.model.application'
+model {
+    android {
+        compileSdkVersion = 23
+        buildToolsVersion = "23.0.1"
+
+        defaultConfig.with {
+            applicationId =  "tencent.cheneygeng.firstjni"
+            minSdkVersion.apiLevel = 19
+            targetSdkVersion.apiLevel = 23
+            versionCode = 1
+            versionName = "1.0"
+
+            buildConfigFields.with {
+                create() {
+                    type = "int"
+                    name = "VALUE"
+                    value = "1"
+                }
+            }
+        }
+    }
+    android.buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles += file('proguard-rules.pro')
+        }
+    }
+    android.productFlavors {
+        create("flavor1") {
+            applicationId = 'com.app'
+        }
+    }
+    android.ndk {
+        moduleName = "hellogc"
+        ldLibs +="log"
+        ldLibs += "z"
+        ldLibs += "m"
+        abiFilters +="armeabi"
+        abiFilters +="armeabi-v7a"
+        abiFilters +="x86"
+    }
+    // Configures source set directory.
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.0.1'
+}
